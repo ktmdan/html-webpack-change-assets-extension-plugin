@@ -23,10 +23,16 @@ var HtmlWebpackChangeAssetsExtensionPlugin = /** @class */ (function () {
                 }
                 var jsExtension = data.plugin.options.jsExtension;
                 var tempArray = data.assets.js;
+                console.log('HtmlWebpackChangeAssetsExtensionPlugin', data.plugin.options);
                 data.assets.js = tempArray.map(function (scriptFile) {
-                    if (data.plugin.options.localonly) {
+                    if (data.plugin.options.extdebug) {
+                        console.log('ext', scriptFile);
+                    }
+                    if (data.plugin.options.extlocalonly) {
                         if (scriptFile instanceof String) {
                             var s = scriptFile;
+                            if (data.plugin.options.extdebug)
+                                console.log('ext', s);
                             if (s.includes('http'))
                                 return scriptFile;
                         }
