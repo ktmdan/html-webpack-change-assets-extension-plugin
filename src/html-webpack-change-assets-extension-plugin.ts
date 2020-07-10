@@ -29,16 +29,18 @@ export default class HtmlWebpackChangeAssetsExtensionPlugin {
           }
           const jsExtension = data.plugin.options.jsExtension
           const tempArray = data.assets.js
-          console.log('HtmlWebpackChangeAssetsExtensionPlugin',data.plugin.options);
           data.assets.js = tempArray.map((scriptFile: any) => {
             if(data.plugin.options.extdebug) {
               console.log('ext',scriptFile)
             }
             if (data.plugin.options.extlocalonly) {
-              if (scriptFile instanceof String) {
-                const s = scriptFile as string
-                if(data.plugin.options.extdebug) console.log('ext',s);
-                if (s.includes('http')) return scriptFile
+              const s = scriptFile as string;
+              if(s) {
+                if(data.plugin.options.extdebug) console.log('extlocalonly',s);
+                if (s.includes('http')) {
+                  if(data.plugin.options.extdebug) console.log('extlocalonly return',s);
+                  return scriptFile;
+                }
               }
             }
             return `${scriptFile}${jsExtension}`
