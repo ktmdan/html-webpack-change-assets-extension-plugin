@@ -29,7 +29,15 @@ export default class HtmlWebpackChangeAssetsExtensionPlugin {
           }
           const jsExtension = data.plugin.options.jsExtension
           const tempArray = data.assets.js
-          data.assets.js = tempArray.map((scriptFile: any) => `${scriptFile}${jsExtension}`)
+          data.assets.js = tempArray.map((scriptFile: any) => {
+            if (data.plugin.options.localonly) {
+              if (scriptFile instanceof String) {
+                const s = scriptFile as string
+                if (s.includes('http')) return scriptFile
+              }
+            }
+            return `${scriptFile}${jsExtension}`
+          })
           return cb(null, data)
         }
       )
