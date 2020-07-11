@@ -27,9 +27,9 @@ var HtmlWebpackChangeAssetsExtensionPlugin = /** @class */ (function () {
                     if (data.plugin.options.extdebug) {
                         console.log('ext', scriptFile);
                     }
-                    if (data.plugin.options.extlocalonly) {
-                        var s = scriptFile;
-                        if (s) {
+                    var s = scriptFile;
+                    if (s) {
+                        if (data.plugin.options.extlocalonly) {
                             if (data.plugin.options.extdebug)
                                 console.log('extlocalonly', s);
                             if (s.includes('http')) {
@@ -38,6 +38,12 @@ var HtmlWebpackChangeAssetsExtensionPlugin = /** @class */ (function () {
                                 return scriptFile;
                             }
                         }
+                        var ret = "" + scriptFile + jsExtension;
+                        if (s.includes('?')) {
+                            var fileSplit = s.split('?');
+                            ret = "" + fileSplit[0] + jsExtension + "?" + fileSplit[1];
+                        }
+                        return ret;
                     }
                     return "" + scriptFile + jsExtension;
                 });
